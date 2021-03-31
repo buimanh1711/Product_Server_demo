@@ -7,7 +7,7 @@ const fileUpload = require('express-fileupload')
 
 const middleware = (app) => {
   app.options('*', cors())
-  app.use(cors())
+  app.use(cors({credentials: true}))
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   app.use(cookieParser())
