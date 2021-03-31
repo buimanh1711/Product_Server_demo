@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const connect = async () => {
   try {
-    await mongoose.connect('mongodb+srv://mb1o4er:<20011004>@testdeploy.y9ix8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+    await mongoose.connect('mongodb+srv://mb1o4er:20011004@testdeploy.y9ix8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,

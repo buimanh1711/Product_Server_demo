@@ -19,7 +19,7 @@ app.use(errHandle)
 db.connect()
 
 app.get('/', (req, res) => {
-    res.send('hello')
+    res.send('manh')
 })
 
 io.on('connection', (socket) => {
