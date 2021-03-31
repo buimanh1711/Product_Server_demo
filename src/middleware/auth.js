@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
-  let token = req.cookies.userToken
+  let token = req.cookies
   res.json({
     status: false,
     message: `this is ${token}`
