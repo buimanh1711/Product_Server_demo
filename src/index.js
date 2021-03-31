@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const http = require('http').Server(app)
 const PORT = 4000
+const http = require('http').Server(app)
 const db = require('./db')
 const middleware = require('./middleware')
 const route = require('./apis/routes')
@@ -29,6 +29,6 @@ io.on('connection', (socket) => {
     })
 })
 
-http.listen(PORT, () => {
+http.listen(process.env.PORT || PORT, () => {
     console.log(`this app is listen to ${PORT} port!`)
 })
