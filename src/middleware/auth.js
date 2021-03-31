@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
       next()
     })
   } else {
-    req.err = 'khong the lay token'
+    req.err = token
     next('last')
   }
 
