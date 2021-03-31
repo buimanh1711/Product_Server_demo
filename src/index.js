@@ -30,5 +30,5 @@ io.on('connection', (socket) => {
 })
 
 http.listen(process.env.PORT || PORT, () => {
-    console.log(`this app is listen to ${PORT} port!`)
+    console.log(`this app is listen to ${process.env.PORT} port!`)
 })
