@@ -15,19 +15,20 @@ class SignInController {
           let id = resData._id
           let image = resData.image
           let password = resData.password
-          let token = jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er') || null
 
-          res.json({
-            logged: true,
-            userData: {
-              role: resData.role || 'user',
-              firstName: resData.firstName,
-              lastName: resData.lastName,
-              id,
-              bio: resData.bio,
-              image
-            },
-            token
+          jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er', { algorithm: 'RS256' }, function(err, token) {
+            res.json({
+              logged: true,
+              userData: {
+                role: resData.role || 'user',
+                firstName: resData.firstName,
+                lastName: resData.lastName,
+                id,
+                bio: resData.bio,
+                image
+              },
+              token
+            })
           })
 
         } else {
