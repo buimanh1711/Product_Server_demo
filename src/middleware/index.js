@@ -6,8 +6,10 @@ const cors = require('cors')
 const fileUpload = require('express-fileupload')
 
 const middleware = (app) => {
-  app.options('*', cors())
-  app.use(cors({credentials: true}))
+  app.use(cors({
+    origin: 'http://localhost:4001',
+    credentials: true
+  }))
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   app.use(cookieParser())
