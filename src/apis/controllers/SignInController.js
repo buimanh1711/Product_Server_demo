@@ -16,7 +16,11 @@ class SignInController {
           let image = resData.image
           let password = resData.password
 
-          jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er', { algorithm: 'RS256' }, function(err, token) {
+          jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er', (err, token) => {
+            if(err) {
+              req.err = 'loi token'
+              return next('last')
+            }
             res.json({
               logged: true,
               userData: {
