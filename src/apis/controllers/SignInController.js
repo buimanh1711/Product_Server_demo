@@ -27,7 +27,7 @@ class SignInController {
                 bio: resData.bio,
                 image
               },
-              userToken: token
+              userToken: token || 'abc'
             })
           })
 
