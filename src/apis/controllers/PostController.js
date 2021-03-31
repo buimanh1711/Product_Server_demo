@@ -49,7 +49,7 @@ class PostController {
             .sort(sort)
             .skip(skip)
             .limit(limit)
-            .populate('author')
+            .populate('author', 'firstName lastName image _id')
             .populate('category')
             .then(data => {
                 if (data && data.length > 0) {
@@ -86,7 +86,7 @@ class PostController {
 
         PostModel.findOne({ _id: postId })
             .populate('category')
-            .populate('author')
+            .populate('author', 'firstName lastName image _id')
             .then(resData => {
                 if (resData) {
                     if (userInfo._id == resData.author._id) {
@@ -317,7 +317,7 @@ class PostController {
         const slug = req.params.slug
         PostModel.findOne({ slug })
             .populate('category')
-            .populate('author')
+            .populate('author', 'firstName lastName image _id')
             .then(resData => {
                 if (resData) {
                     res.json({
@@ -510,7 +510,7 @@ class PostController {
 
         PostModel.find(query)
             .populate('category')
-            .populate('author')
+            .populate('author', 'firstName lastName image _id')
             .then((resData) => {
                 if (resData && resData.length > 0) {
                     res.json({
