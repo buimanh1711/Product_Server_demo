@@ -12,7 +12,7 @@ const apiLimiter = rateLimit({
 });
 
 const middleware = (app) => {
-  app.use(cors({credentials: true, origin: 'http://localhost:4001'}))
+  app.use(cors())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   app.use(cookieParser())
