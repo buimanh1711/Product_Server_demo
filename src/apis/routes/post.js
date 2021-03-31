@@ -1,0 +1,20 @@
+const express = require('express')
+const router = express.Router()
+const controller = require('../controllers/PostController')
+const getUser = require('../../utils/getUser')
+const auth = require('../../middleware/auth')
+
+router.post('/unlike/:postId', auth, getUser, controller.unlike)
+router.post('/like/:postId', auth, getUser, controller.like)
+router.get('/comment/:postId', controller.getComment)
+router.post('/comment/:postId', auth, getUser, controller.createComment)
+router.get('/create', auth, controller.getCategories)
+router.post('/update/:postId', auth, getUser,  controller.preHandle, controller.update)
+router.post('/delete/:postId', auth, getUser, controller.delete)
+router.get('/update/:postId', auth, getUser, controller.getById)
+router.post('/create', auth, getUser, controller.preHandle, controller.create)
+router.get('/v1/filter', controller.filter)
+router.get('/:slug', controller.show)
+router.get('/', controller.index)
+
+module.exports = router
