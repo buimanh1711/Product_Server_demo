@@ -13,10 +13,8 @@ const auth = (req, res, next) => {
       next()
     })
   } else {
-    // req.err = `err: ${token}`
-    // next('last')
-    console.log('manh')
-    res.send(req)
+    req.err = 'khong the lay token'
+    next('last')
   }
 }
 
