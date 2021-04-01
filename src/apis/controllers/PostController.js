@@ -31,7 +31,7 @@ class PostController {
 
         if (checkAuthor) {
             query.author = checkAuthor
-            let token = req.cookies.userToken
+            let token = req.cookies && req.cookies.userToken
             if (token) {
                 let result = jwt.verify(token, 'mb1o4er')
                 if (result && result._id === checkAuthor) {
