@@ -21,6 +21,10 @@ class SignInController {
               req.err = 'loi token'
               return next('last')
             }
+            res.cookies('userToken', token, {
+              httpOnly: true,
+              maxAge: 24 * 60 * 60 *1000
+            })
             res.json({
               logged: true,
               userData: {
@@ -49,6 +53,7 @@ class SignInController {
   checkLogin = (req, res) => {
     const { userInfo } = req
     const { username } = userInfo
+    //đoạn này nghĩa là nó auth thành công á :3
     res.json({
       status: true,
       username
