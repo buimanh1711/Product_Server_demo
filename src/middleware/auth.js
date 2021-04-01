@@ -15,6 +15,7 @@ const auth = (req, res, next) => {
   } else {
     // req.err = `err: ${token}`
     // next('last')
+    console.log('manh')
     res.send(req)
   }
 }
