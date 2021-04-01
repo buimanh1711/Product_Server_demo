@@ -33,7 +33,7 @@ class SignUnController {
                     image,
                     bio: newAccount.bio
                   },
-                  // token
+                  token: req.headers
                 })
               })
 

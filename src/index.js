@@ -14,7 +14,7 @@ const errHandle = require('./middleware/errHandle')
 //init route
 
 middleware(app)
-app.set("trust proxy", 1)
+
 route(app)
 app.use(errHandle)
 db.connect()

@@ -31,7 +31,8 @@ class PostController {
 
         if (checkAuthor) {
             query.author = checkAuthor
-            let token = req.cookies && req.cookies.userToken
+            let token = req.headers?.authorization?.split(' ')[1]
+
             if (token) {
                 let result = jwt.verify(token, 'mb1o4er')
                 if (result && result._id === checkAuthor) {
@@ -321,7 +322,6 @@ class PostController {
             .then(resData => {
                 if (resData) {
                     res.json({
-                        abc: req.cookies,
                         status: true,
                         post: resData
                     })
