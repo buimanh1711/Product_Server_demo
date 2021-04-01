@@ -321,7 +321,6 @@ class PostController {
             .then(resData => {
                 if (resData) {
                     res.json({
-                        req: req,
                         status: true,
                         post: resData
                     })
