@@ -321,6 +321,7 @@ class PostController {
             .then(resData => {
                 if (resData) {
                     res.json({
+                        abc: req.cookies,
                         status: true,
                         post: resData
                     })
