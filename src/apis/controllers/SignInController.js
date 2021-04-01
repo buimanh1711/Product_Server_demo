@@ -22,7 +22,7 @@ class SignInController {
               return next('last')
             }
 
-            res.cookie('userToken', token)
+            res.cookie('userToken', token, { httpOnly: true, sameSite: true, maxAge: 24 * 60 * 60 * 1000})
             console.log(token)
             return res.status(200).json({
               logged: true,
