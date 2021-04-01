@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const PORT = 4000
+const PORT = 5000
 const http = require('http').Server(app)
 const db = require('./db')
 const middleware = require('./middleware')
@@ -30,5 +30,5 @@ app.get('/', (req, res) => {
 // })
 
 http.listen(process.env.PORT || PORT, () => {
-    console.log(`this app is listen to ${process.env.PORT} port!`)
+    console.log(`this app is listen to ${process.env.PORT || PORT} port!`)
 })

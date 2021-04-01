@@ -16,16 +16,15 @@ class SignInController {
           let image = resData.image
           let password = resData.password
 
-          jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er', (err, token) => {
-            if(err) {
+          let token = jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er') 
+            if(!token) {
               req.err = 'loi token'
               return next('last')
             }
-            res.cookies('userToken', token, {
-              httpOnly: true,
-              maxAge: 24 * 60 * 60 *1000
-            })
-            res.json({
+
+            res.cookie('userToken', token)
+            console.log(token)
+            return res.status(200).json({
               logged: true,
               userData: {
                 role: resData.role || 'user',
@@ -35,8 +34,7 @@ class SignInController {
                 bio: resData.bio,
                 image
               },
-              userToken: token
-            })
+              // // userToken: token
           })
 
         } else {

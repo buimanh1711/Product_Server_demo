@@ -23,6 +23,7 @@ class SignUnController {
                   req.err = 'loi sign token'
                   return next('last')
                 }
+                res.cookie('userToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
                 res.json({
                   logged: true,
                   userData: {
@@ -32,7 +33,7 @@ class SignUnController {
                     image,
                     bio: newAccount.bio
                   },
-                  token
+                  // token
                 })
               })
 
