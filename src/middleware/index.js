@@ -7,7 +7,8 @@ const fileUpload = require('express-fileupload')
 
 const middleware = (app) => {
   app.use(cors({
-    credential: true,
+    origin: 'https://mb1o4er.herokuapp.com',
+    credential: true
   }))
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
