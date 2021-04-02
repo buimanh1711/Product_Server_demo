@@ -22,7 +22,6 @@ class SignInController {
               return next('last')
             }
 
-            console.log(token)
             return res.status(200).json({
               logged: true,
               userData: {

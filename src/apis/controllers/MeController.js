@@ -38,7 +38,7 @@ class MeController {
         newData.password = newPass
         newToken = jwt.sign({ _id: userInfo._id, username: userInfo.username, password: newPass }, 'mb1o4er') || null
       } else {
-        req.err = 'sai mat khau cu'
+        req.err = 'ConfirmPassErr(41_Me)'
         next('last')
       }
     }
@@ -54,29 +54,21 @@ class MeController {
             newToken
           })
         } else {
-          req.err = 'Khong the thay doi thong tin'
+          req.err = 'ChangeInfoErr(57_Me)'
           next('last')
         }
       })
       .catch(err => {
-        req.err = 'hollo bug'
+        req.err = 'ServerErr(62_Me)'
         next('last')
       })
 
   }
 
   changeAvt = (req, res, next) => {
-    const file = req.files?.file
     const { userInfo } = req
     const data = req.body || {}
-    let path
-
-    if (!file) {
-      path = 'user_default.jpg'
-    } else {
-      path = `${file.name}`
-      file.mv(`${__dirname}../../../../public/upload/${path}`)
-    }
+    const path = data.image || null
 
     AccountModel.updateOne({
       _id: userInfo._id
@@ -85,14 +77,6 @@ class MeController {
     })
       .then(resData => {
         if (resData) {
-          if (data.oldFile && data.oldFile !== path && data.oldFile !== 'default_image.png' && data.oldFile !== 'user_default.jpg') {
-            try {
-              console.log('thanh cong')
-              fs.unlinkSync(`${__dirname}../../../../public/upload/${data.oldFile}`)
-            } catch (err) {
-              console.log(err)
-            }
-          }
           res.json({
             status: true,
             newImage: path

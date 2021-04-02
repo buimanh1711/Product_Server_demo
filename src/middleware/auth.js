@@ -6,14 +6,14 @@ const auth = (req, res, next) => {
   if (token) {
     jwt.verify(token, 'mb1o4er', (err, result) => {
       if (err) {
-        req.err = 'khong the xac thuc'
+        req.err = 'unauthenticate'
         return next('last')
       }
       req.userId = result._id
       next()
     })
   } else {
-    req.err = 'khong the lay token'
+    req.err = 'TokenErr'
     next('last')
   }
 }

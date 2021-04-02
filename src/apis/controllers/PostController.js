@@ -39,7 +39,7 @@ class PostController {
                     isAuthor = true
                 }
             } else {
-                req.err = 'loitoken'
+                req.err = 'GetTokenErr(42_Post)'
                 next('last')
             }
         } else if (author) {
@@ -66,17 +66,17 @@ class PostController {
                                     totalPost: count
                                 })
                             } else {
-                                req.err = 'loi dem post'
+                                req.err = 'CountDocsErr(69_post)'
                                 next('last')
                             }
                         })
                 } else {
-                    req.err = 'khong tim thay'
+                    req.err = 'NotFound(74_post)'
                     next('last')
                 }
             })
             .catch(err => {
-                req.err = err
+                req.err = 'ServerErr(79_post)'
                 next('last')
             })
     }
@@ -84,24 +84,25 @@ class PostController {
     getById = (req, res, next) => {
         const { postId } = req.params
         const { userInfo } = req
-
+        
         PostModel.findOne({ _id: postId })
             .populate('category')
             .populate('author', 'firstName lastName image _id')
             .then(resData => {
                 if (resData) {
-                    if (userInfo._id == resData.author._id) {
+                    const authorId = resData.author && resData.author._id
+                    if (userInfo._id == authorId) {
                         res.json({
                             status: true,
                             post: resData
                         })
                     } else {
-                        req.err = 'not permissed'
+                        req.err = 'RoleErr(99_post)'
                         next('last')
                     }
 
                 } else {
-                    req.err = 'khong tim thay bai viet'
+                    req.err = 'NotFound(104_post)'
                     next('last')
                 }
             })
@@ -110,8 +111,8 @@ class PostController {
     // [POST] create a new post
     preHandle = (req, res, next) => {
         //get file
-        const file = req.files?.image || null
         const data = req.body || {}
+        const file = data.image
         const { userInfo } = req
 
         if (data.author) {
@@ -127,16 +128,8 @@ class PostController {
             path = null
             req._path = path
         } else {
-            path = file.name
+            path = file
             req._path = path
-            file.mv(`${__dirname}../../../../public/upload/${path}`, err => {
-                if (err) {
-                    req.err = 'upload error'
-                    return next('last')
-                } else {
-                    req.oldFile = data.oldFile
-                }
-            })
         }
 
         const { newCate } = data
@@ -251,14 +244,6 @@ class PostController {
         )
             .then(resData => {
                 if (resData) {
-                    if(data.oldFile && data.oldFile !== _path && data.oldFile !== 'default_image.png' && data.oldFile !== 'user_default.jpg') {
-                        try {
-                            console.log('thanh cong')
-                            fs.unlinkSync(`${__dirname}../../../../public/upload/${data.oldFile}`)
-                        } catch (err) {
-                            console.log(err)
-                        }
-                    }
                     res.json({
                         status: true,
                         message: 'cap nhat thanh cong!'

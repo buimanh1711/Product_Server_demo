@@ -11,12 +11,12 @@ class CategoryController {
             categories: resData
           })
         } else {
-          req.err = 'Server error'
+          req.err = 'NotFound(14_Cate)'
           next()
         }
       }) 
       .catch(err => {
-        req.err = err
+        req.err = 'ServerErr(19_Cate)'
         next()
       })
   }

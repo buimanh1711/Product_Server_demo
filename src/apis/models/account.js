@@ -9,7 +9,7 @@ const Account = new Schema({
   lastName: { type: String, maxLength: 30 },
   role: { type: String, default: 'user' },
   bio: { type: String, default: 'Create your bio'},
-  image: { type: String, default: 'user_default.jpg'}
+  image: { type: String, default: '/images/defaultimg.jpg'}
 })
 
 module.exports = mongoose.model('account', Account)
