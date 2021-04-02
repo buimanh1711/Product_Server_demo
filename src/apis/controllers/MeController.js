@@ -33,7 +33,7 @@ class MeController {
 
     let newToken
 
-    if (oldPass) {
+    if (oldPass && newPass) {
       if (oldPass.length > 0 && oldPass === userInfo.password) {
         newData.password = newPass
         newToken = jwt.sign({ _id: userInfo._id, username: userInfo.username, password: newPass }, 'mb1o4er') || null
@@ -41,7 +41,7 @@ class MeController {
         req.err = 'ConfirmPassErr(41_Me)'
         next('last')
       }
-    }
+    } 
 
     AccountModel.updateOne({
       _id: userInfo._id
