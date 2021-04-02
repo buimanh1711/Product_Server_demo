@@ -439,7 +439,6 @@ class PostController {
                                 }
                             })
                             .then(resData2 => {
-                                console.log(resData2)
                                 res.json({
                                     status: true,
                                     message: 'thanh cong',
