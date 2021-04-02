@@ -15,8 +15,9 @@ class SignInController {
           let id = resData._id
           let image = resData.image
           let password = resData.password
+          let role = resData.role
 
-          let token = jwt.sign({ _id: id, username: data.username, password }, 'mb1o4er') 
+          let token = jwt.sign({ _id: id, role, username: data.username, password }, 'mb1o4er') 
             if(!token) {
               req.err = 'loi token'
               return next('last')
@@ -30,7 +31,8 @@ class SignInController {
                 lastName: resData.lastName,
                 id,
                 bio: resData.bio,
-                image
+                image,
+                role: resData.role
               },
               userToken: token
           })

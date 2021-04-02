@@ -4,7 +4,6 @@ const CategoryModel = require('../models/category')
 const toSlug = require('../../utils/toSlug')
 const getPage = require('../../utils/getPage')
 const jwt = require('jsonwebtoken')
-const fs = require('fs')
 
 const mongoose = require('mongoose')
 
@@ -84,7 +83,7 @@ class PostController {
     getById = (req, res, next) => {
         const { postId } = req.params
         const { userInfo } = req
-        
+
         PostModel.findOne({ _id: postId })
             .populate('category')
             .populate('author', 'firstName lastName image _id')
@@ -265,8 +264,8 @@ class PostController {
         const { userInfo } = req
         const { authorId } = req.body
         const { postId } = req.params
-
-        if (userInfo._id === authorId) {
+        const { role } = userInfo
+        if (userInfo._id === authorId || role === 'admin') {
             PostModel.deleteOne({
                 _id: postId
             })
@@ -375,8 +374,10 @@ class PostController {
     createComment = (req, res, next) => {
         const data = req.body
         const { userInfo } = req
-
+        const myId = mongoose.Types.ObjectId()
+        
         const newComment = {
+            _id: myId,
             postId: data.postId,
             content: data.content,
             user: userInfo._id
@@ -393,7 +394,7 @@ class PostController {
                         },
                         {
                             $push: {
-                                comment: { content: data.content }
+                                comment: { _id: myId }
                             }
                         }
                     )
@@ -401,6 +402,7 @@ class PostController {
                         if (updateRes) {
                             res.json({
                                 status: true,
+                                newCommentId: myId,
                                 message: 'Comment thanh cong'
                             })
                         } else {
@@ -414,6 +416,45 @@ class PostController {
                 next('last')
             }
         })
+    }
+
+    deleteComment = (req, res, next) => {
+        const { userInfo } = req
+        const { commentId, postId, userId } = req.query
+        const { role } = userInfo
+
+        if (role === 'admin' || userId === userInfo._id) {
+            CommentModel.deleteOne({
+                _id: commentId
+            })
+                .then(resData => {
+                    if(resData) {
+                        PostModel.updateOne(
+                            {
+                                _id: postId
+                            },
+                            {
+                                $pull: {
+                                    comment: { _id: mongoose.Types.ObjectId(commentId) }
+                                }
+                            })
+                            .then(resData2 => {
+                                console.log(resData2)
+                                res.json({
+                                    status: true,
+                                    message: 'thanh cong',
+                                })
+                            })
+                            .catch(err => {
+                                req.err = 'ServerErr(437_Post)'
+                                next('last')
+                            })
+                    }
+                })
+        } else {
+            req.err = 'NotAllowed(441_Post)'
+            next('last')
+        }
     }
 
     like = (req, res, next) => {
